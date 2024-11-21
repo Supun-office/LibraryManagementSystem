@@ -14,6 +14,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext"; // Access authentication context
 import MenuIcon from "@mui/icons-material/Menu"; // Hamburger menu icon
+import { LogoutOutlined } from "@mui/icons-material";
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth(); // Get authentication state and logout function
@@ -56,7 +57,7 @@ const NavBar: React.FC = () => {
           {/* Show only on larger screens */}
           {isAuthenticated ? (
             <Button color="inherit" onClick={handleLogout}>
-              Logout
+              <LogoutOutlined sx={{ width: "24px", height: "24px" }} /> Logout
             </Button>
           ) : (
             <Box>
