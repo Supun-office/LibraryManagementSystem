@@ -34,7 +34,7 @@ code {
 }
 
 .login-page-logo img {
-  width: 100px;
+  width: 150px;
   margin-bottom: 20px;
 }
 
@@ -164,7 +164,7 @@ code {
 }
 
 .register-page-logo {
-  width: 100px;
+  width: 150px;
   margin-bottom: 20px;
 }
 
@@ -411,184 +411,34 @@ code {
 }
 /* addbook page end */
 
+/* Book List Page CSS */
 
-/* Book List Page Styles */
-.booklist-container {
-  padding-top: 100px;
-  /* Adjust for the navbar height */
-  padding-left: 16px;
-  padding-right: 16px;
-  /* Remove excessive right padding */
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1900px;
-  /* Ensure it fits the screen width */
-}
-
-/* Add Book Button Styling */
-.add-book-button-container {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 20px;
+.books-heading {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .add-book-button {
-  background-color: #000;
-  /* Black background */
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 10px 20px;
-  text-transform: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  /* Subtle shadow */
-}
-
-.add-book-button:hover {
-  background-color: #333;
-  /* Darker black for hover effect */
-}
-
-/* Book Cards Section */
-.book-cards-container {
-  margin-top: 30px;
-  /* Adjust gap between heading and cards */
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  /* Left to right layout */
-  gap: 20px;
-  /* Set gap between cards */
-}
-
-/* Heading Styling with Black Line */
-.book-list-heading {
-  font-size: 32px;
-  font-weight: 600;
-  color: #fff;
-  /* White text */
-  text-align: center;
-  margin-bottom: 20px;
-  padding: 10px 0;
-  background-color: #141414;
-  /* Black background */
-  text-transform: uppercase;
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  /* Subtle shadow */
-  width: 100%;
-  /* Ensure it spans full width */
-  margin-left: 0;
-  /* Reset margin */
-  border-bottom: 2px solid #fff;
-  /* White line under the heading */
-}
-
-/* Book Card Styling */
-.book-card-item {
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 .book-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  /* Darker shadow */
-  transition: transform 0.3s ease-in-out;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
-  padding: 20px;
-}
-
-.book-card:hover {
-  transform: translateY(-5px);
-  /* Hover effect */
-}
-
-.book-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #000;
-}
-
-.book-author {
-  color: #555;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
-
-.book-description {
-  font-size: 14px;
-  color: #777;
+  width: 100%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   margin-bottom: 20px;
 }
 
-/* Book Card Action Buttons */
-.book-card-actions {
+.book-button-group {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+  gap: 10px;
 }
-
-.edit-button,
-.delete-button {
-  font-size: 14px;
-  border-radius: 5px;
-}
-
-.edit-button {
-  background-color: #000;
-  /* Black color for edit button */
-  color: white;
-  margin-right: 10px;
-  text-transform: none;
-  padding: 8px 15px;
-}
-
-.edit-button:hover {
-  background-color: #333;
-  /* Darker black on hover */
-}
-
-.delete-button {
-  background-color: #dc3545;
-  /* Red for delete button */
-  color: white;
-  text-transform: none;
-  padding: 8px 15px;
-}
-
-.delete-button:hover {
-  background-color: #c82333;
-  /* Darker red on hover */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .book-cards-container {
-    grid-template-columns: 1fr;
-    /* Stack cards in a single column on smaller screens */
-  }
-
-  .add-book-button-container {
-    justify-content: center;
-    /* Center the Add Book button */
-  }
-
-  .book-list-heading {
-    font-size: 28px;
-    /* Adjust heading size */
-  }
-
-  .book-card {
-    padding: 10px;
-    /* Adjust padding inside cards */
-  }
-}
-
-
 /* Sidebar container */
 .custom-sidebar {
   display: flex;

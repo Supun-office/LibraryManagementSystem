@@ -12,28 +12,28 @@ const AddBook: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setOpen(true);
+    setOpen(true); // Ensure dialog is open on mount
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form behavior
     setError("");
 
     if (!title || !author || !description) {
-      setError("Please fill in all fields");
+      setError("Please fill in all fields"); // Input validation
       return;
     }
 
     try {
-      await addBook({ title, author, description });
-      navigate("/"); // Navigate back to the BookList after adding the book
+      await addBook({ title, author, description }); // Add book via service
+      navigate("/"); // Navigate to book list
     } catch (err) {
-      setError("Failed to add book");
+      setError("Failed to add book"); // Handle errors
     }
   };
 
   const handleClose = () => {
-    navigate("/"); // Navigate back to the BookList when Cancel is clicked or the dialog is closed
+    navigate("/"); // Close dialog and navigate back
   };
 
   return (

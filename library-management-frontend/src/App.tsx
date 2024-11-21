@@ -19,30 +19,35 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { isAuthenticated } = useAuth();
 
-  // Redirect to login if the user is not authenticated
+  // If the user is not authenticated, redirect to login page
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" />; // Redirect to login
   }
 
+  // If authenticated, render the children components (protected content)
   return <>{children}</>;
 };
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
+      {" "}
+      {/* Wrap the entire app in AuthProvider to manage authentication state */}
       <Router>
         <Routes>
           {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
+          <Route path="/login" element={<Login />} /> {/* Login page */}
+          <Route path="/register" element={<Register />} />{" "}
+          {/* Registration page */}
           {/* Protected Routes */}
           <Route
             path="/"
             element={
               <ProtectedRoute>
-                <NavBar />
-                <BookList />
+                {" "}
+                {/* Ensure only authenticated users can access */}
+                <NavBar /> {/* Navigation bar for authenticated users */}
+                <BookList /> {/* Main book listing page */}
               </ProtectedRoute>
             }
           />
@@ -50,8 +55,10 @@ const App: React.FC = () => {
             path="/edit-book/:id"
             element={
               <ProtectedRoute>
+                {" "}
+                {/* Ensure only authenticated users can access */}
                 <NavBar />
-                <EditBook />
+                <EditBook /> {/* Edit book page */}
               </ProtectedRoute>
             }
           />
@@ -59,12 +66,13 @@ const App: React.FC = () => {
             path="/add-book"
             element={
               <ProtectedRoute>
+                {" "}
+                {/* Ensure only authenticated users can access */}
                 <NavBar />
-                <AddBook /> 
+                <AddBook /> {/* Add new book page */}
               </ProtectedRoute>
             }
           />
-
           {/* Redirect to login if the route doesn't match */}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

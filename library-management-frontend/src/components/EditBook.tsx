@@ -3,59 +3,59 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getBook, updateBook } from "../services/bookService";
 
 const EditBook: React.FC = () => {
-  const { id } = useParams(); // Extract book ID from the URL
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
-  const [open, setOpen] = useState(false); // State to control the dialog open/close
+  const { id } = useParams(); // Get book ID from the URL
+  const [title, setTitle] = useState(""); // Book title state
+  const [author, setAuthor] = useState(""); // Book author state
+  const [description, setDescription] = useState(""); // Book description state
+  const [error, setError] = useState(""); // Error message state
+  const [open, setOpen] = useState(false); // Dialog visibility state
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch book details when component mounts
     const fetchBook = async () => {
       try {
-        const book = await getBook(Number(id)); // Use getBook with the ID
+        const book = await getBook(Number(id)); // Fetch book by ID
         if (book) {
           setTitle(book.title);
           setAuthor(book.author);
           setDescription(book.description);
-          setOpen(true); // Open the dialog when the book is fetched
+          setOpen(true); // Open dialog on successful fetch
         }
       } catch (error) {
-        setError("Failed to fetch book details");
+        setError("Failed to fetch book details"); // Handle fetch errors
       }
     };
 
     fetchBook();
-  }, [id]);
+  }, [id]); // Dependency ensures fetchBook runs when ID changes
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form behavior
     setError("");
 
     if (!title || !author || !description) {
-      setError("Please fill in all fields");
+      setError("Please fill in all fields"); // Validate inputs
       return;
     }
 
     try {
-      // Include 'id' in the object passed to updateBook
       await updateBook(Number(id), {
         id: Number(id),
         title,
         author,
         description,
-      });
-      setOpen(false); // Close the dialog after success
-      navigate("/"); // Redirect to book list
+      }); // Update book
+      setOpen(false); // Close dialog on success
+      navigate("/"); // Navigate back to book list
     } catch (err) {
-      setError("Failed to update book");
+      setError("Failed to update book"); // Handle update errors
     }
   };
 
   const handleClose = () => {
-    setOpen(false); // Close the dialog when Cancel is clicked
-    navigate("/"); // Redirect to book list after closing the dialog
+    setOpen(false); // Close dialog
+    navigate("/"); // Navigate back to book list
   };
 
   return (
@@ -63,32 +63,34 @@ const EditBook: React.FC = () => {
       <div className="dialog-container">
         <div className="dialog-header">
           <div className="dialog-icon">🔲</div>
-          <h1 className="dialog-title">Edit Book (ID: {id})</h1>
+          <h1 className="dialog-title">Edit Book (ID: {id})</h1>{" "}
+          {/* Display book ID */}
           <button onClick={handleClose} className="dialog-close">
             ✖
           </button>
         </div>
         <hr className="dialog-divider" />
         <form onSubmit={handleSubmit} className="dialog-form">
-          {error && <div className="dialog-error">{error}</div>}
+          {error && <div className="dialog-error">{error}</div>}{" "}
+          {/* Display error */}
           <input
             type="text"
             placeholder="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)} // Update title state
             className="dialog-input"
           />
           <input
             type="text"
             placeholder="Author"
             value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            onChange={(e) => setAuthor(e.target.value)} // Update author state
             className="dialog-input"
           />
           <textarea
             placeholder="Description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)} // Update description state
             className="dialog-input dialog-textarea"
           />
           <div className="dialog-actions">

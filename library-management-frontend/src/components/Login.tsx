@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     <div className="login-page-container">
       <div className="login-page-left">
         <div className="login-page-logo">
-          <img src="/logo.png" alt="BookWorm Logo" /> {/* Update logo path */}
+          <img src="../bc.png" alt="BookWorm Logo" /> {/* Update logo path */}
         </div>
         <h1 className="login-page-title">Welcome Back !!</h1>
         <p className="login-page-subtitle">
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
         </button>
       </div>
       <div className="login-page-right">
-        <h1 className="login-page-library-title">BookWorm Library</h1>
+        <h1 className="login-page-library-title">Book Corner</h1>
         <p className="login-page-new-user">New to our platform? Sign Up now.</p>
         <Link to="/register">
           <button className="login-page-signup-button">Sign Up</button>

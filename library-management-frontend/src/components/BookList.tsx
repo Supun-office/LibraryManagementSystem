@@ -9,18 +9,18 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import "../index.css"; // Import the custom CSS
 
 const BookList = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([]); // State to store the list of books
 
   useEffect(() => {
+    // Fetch books when the component is mounted
     const fetchBooks = async () => {
       try {
-        const data = await getBooks();
-        setBooks(data);
+        const data = await getBooks(); // Call API to get books
+        setBooks(data); // Update state with fetched books
       } catch (error) {
-        console.error("Failed to fetch books:", error);
+        console.error("Failed to fetch books:", error); // Log fetch errors
       }
     };
     fetchBooks();
@@ -28,89 +28,119 @@ const BookList = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteBook(id);
-      setBooks(books.filter((book: any) => book.id !== id));
+      await deleteBook(id); // Call API to delete a book
+      setBooks(books.filter((book: any) => book.id !== id)); // Update state to remove deleted book
     } catch (error) {
-      console.error(`Failed to delete book with ID ${id}:`, error);
+      console.error(`Failed to delete book with ID ${id}:`, error); // Log delete errors
     }
   };
 
   return (
-    <Box className="booklist-container">
+    <Box
+      sx={{
+        paddingTop: "80px", // Adjust for navbar height
+        margin: 0,
+        width: "100%",
+        paddingX: { xs: "16px", sm: "32px", md: "64px" }, // Responsive padding
+      }}
+    >
+      {/* Page Heading */}
+      <Box
+        sx={{
+          backgroundColor: "black",
+          color: "white",
+          padding: "15px 0",
+          textAlign: "center",
+          marginBottom: "20px",
+          fontSize: "24px",
+          fontWeight: "bold",
+        }}
+      >
+        Books
+      </Box>
+
       {/* Add Book Button */}
-      <Box className="add-book-button-container">
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          marginBottom: "20px",
+        }}
+      >
         <Button
           variant="contained"
-          color="primary"
+          sx={{
+            backgroundColor: "black",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#333",
+            },
+          }}
           component={Link}
           to="/add-book"
-          className="add-book-button"
         >
           Add Book
         </Button>
       </Box>
 
-      {/* Book Cards Section */}
-      <Box className="book-cards-container">
-        <Typography variant="h4" className="book-list-heading">
-          Books
-        </Typography>
-        <Grid container spacing={3} justifyContent="flex-start">
-          {books.map((book: any) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={book.id}
-              className="book-card-item"
-            >
-              <Card className="book-card">
-                <CardContent>
-                  {/* Book Title */}
-                  <Typography variant="h5" className="book-title">
-                    {book.title}
-                  </Typography>
-                  {/* Book Author */}
-                  <Typography color="text.secondary" className="book-author">
-                    {book.author}
-                  </Typography>
-                  {/* Book Description */}
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    className="book-description"
+      {/* Display Books as Cards */}
+      <Grid
+        container
+        spacing={3}
+        justifyContent="flex-start"
+        sx={{ width: "100%" }}
+      >
+        {books.map((book: any) => (
+          <Grid item xs={12} sm={6} md={4} key={book.id}>
+            <Card sx={{ boxShadow: 3, padding: "15px", width: "100%" }}>
+              <CardContent>
+                <Typography color="text.secondary" gutterBottom>
+                  ID: {book.id} {/* Book ID */}
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {book.title} {/* Book Title */}
+                </Typography>
+                <Typography color="text.secondary">{book.author}</Typography>
+                {/* Author */}
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  {book.description} {/* Description */}
+                </Typography>
+                <Box sx={{ display: "flex", gap: "10px" }}>
+                  <Button
+                    component={Link}
+                    to={`/edit-book/${book.id}`} // Link to edit page
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "black",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#333",
+                      },
+                    }}
+                    size="small"
                   >
-                    {book.description}
-                  </Typography>
-                  {/* Edit and Delete Buttons */}
-                  <Box className="book-card-actions">
-                    <Button
-                      component={Link}
-                      to={`/edit-book/${book.id}`}
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      className="edit-button"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      size="small"
-                      onClick={() => handleDelete(book.id)}
-                      className="delete-button"
-                    >
-                      Delete
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#d32f2f",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#b71c1c",
+                      },
+                    }}
+                    size="small"
+                    onClick={() => handleDelete(book.id)} // Delete book on click
+                  >
+                    Delete
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

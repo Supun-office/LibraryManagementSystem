@@ -12,23 +12,22 @@ import {
   IconButton,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext"; // Access authentication context
 import MenuIcon from "@mui/icons-material/Menu"; // Hamburger menu icon
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth(); // Get authentication state and logout function
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // For navigation after logout
 
   const handleLogout = () => {
     logout(); // Perform logout
-    navigate("/login"); // Redirect to the login page
+    navigate("/login"); // Redirect to login page
   };
 
-  // Drawer state for mobile view
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // State to control drawer visibility
 
   const toggleDrawer = (open: boolean) => {
-    setOpen(open);
+    setOpen(open); // Open or close the drawer
   };
 
   return (
@@ -36,13 +35,8 @@ const NavBar: React.FC = () => {
       <Toolbar>
         {/* Logo and System Name */}
         <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-          <img
-            src="/logo.png"
-            alt="Library Logo"
-            style={{ height: "40px", marginRight: "10px" }}
-          />
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Library Management System
+            Book Corner
           </Typography>
         </Box>
 
@@ -51,13 +45,15 @@ const NavBar: React.FC = () => {
           color="inherit"
           aria-label="menu"
           onClick={() => toggleDrawer(true)}
-          sx={{ display: { xs: "block", md: "none" } }}
+          sx={{ display: { xs: "block", md: "none" } }} // Show only on small screens
         >
           <MenuIcon />
         </IconButton>
 
-        {/* User-specific Buttons for Desktop */}
+        {/* User-Specific Buttons for Desktop */}
         <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          {" "}
+          {/* Show only on larger screens */}
           {isAuthenticated ? (
             <Button color="inherit" onClick={handleLogout}>
               Logout
