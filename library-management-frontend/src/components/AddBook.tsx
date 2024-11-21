@@ -1,84 +1,90 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addBook } from '../services/bookService';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { addBook } from "../services/bookService";
+import "../index.css";
 
 const AddBook: React.FC = () => {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        title: '',
-        author: '',
-        description: '',
-    });
-    const [errors, setErrors] = useState({
-        title: '',
-        author: '',
-        description: '',
-    });
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
-    const validateForm = () => {
-        const newErrors = { title: '', author: '', description: '' };
-        if (!formData.title.trim()) newErrors.title = 'Title is required.';
-        if (!formData.author.trim()) newErrors.author = 'Author is required.';
-        if (!formData.description.trim()) newErrors.description = 'Description is required.';
-        setErrors(newErrors);
-        return !Object.values(newErrors).some(error => error);
-    };
+  useEffect(() => {
+    setOpen(true);
+  }, []);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!validateForm()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
 
-        try {
-            await addBook(formData);
-            alert('Book added successfully!');
-            navigate('/');
-        } catch (error) {
-            alert('Failed to add the book. Please try again.');
-        }
-    };
+    if (!title || !author || !description) {
+      setError("Please fill in all fields");
+      return;
+    }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    try {
+      await addBook({ title, author, description });
+      navigate("/"); // Navigate back to the BookList after adding the book
+    } catch (err) {
+      setError("Failed to add book");
+    }
+  };
 
-    return (
-        <div>
-            <h2>Add Book</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Title:</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                    />
-                    {errors.title && <p style={{ color: 'red' }}>{errors.title}</p>}
-                </div>
-                <div>
-                    <label>Author:</label>
-                    <input
-                        type="text"
-                        name="author"
-                        value={formData.author}
-                        onChange={handleChange}
-                    />
-                    {errors.author && <p style={{ color: 'red' }}>{errors.author}</p>}
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
-                    {errors.description && <p style={{ color: 'red' }}>{errors.description}</p>}
-                </div>
-                <button type="submit">Add Book</button>
-            </form>
+  const handleClose = () => {
+    navigate("/"); // Navigate back to the BookList when Cancel is clicked or the dialog is closed
+  };
+
+  return (
+    <div className="dialog-overlay">
+      <div className="dialog-container">
+        <div className="dialog-header">
+          <div className="dialog-icon">🔲</div>
+          <h1 className="dialog-title">Add New Book</h1>
+          <button onClick={handleClose} className="dialog-close">
+            ✖
+          </button>
         </div>
-    );
+        <hr className="dialog-divider" />
+        <form onSubmit={handleSubmit} className="dialog-form">
+          {error && <div className="dialog-error">{error}</div>}
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="dialog-input"
+          />
+          <input
+            type="text"
+            placeholder="Author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            className="dialog-input"
+          />
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="dialog-input dialog-textarea"
+          />
+          <div className="dialog-actions">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="dialog-cancel"
+            >
+              Cancel
+            </button>
+            <button type="submit" className="dialog-submit">
+              Add Book
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default AddBook;

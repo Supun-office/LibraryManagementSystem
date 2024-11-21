@@ -146,3 +146,12 @@ F:\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net9.0\refint\Libra
 F:\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net9.0\LibraryManagementSystem.pdb
 F:\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net9.0\LibraryManagementSystem.genruntimeconfig.cache
 F:\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net9.0\ref\LibraryManagementSystem.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+F:\LibraryManagementSystem\LibraryManagementSystem\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

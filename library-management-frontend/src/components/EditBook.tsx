@@ -1,83 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getBookById, updateBook } from '../services/bookService';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getBook, updateBook } from "../services/bookService";
 
 const EditBook: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+  const { id } = useParams(); // Extract book ID from the URL
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false); // State to control the dialog open/close
+  const navigate = useNavigate();
 
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [description, setDescription] = useState('');
-    const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        // Fetch the book details to pre-fill the form
-        const fetchBook = async () => {
-            if (id) {
-                try {
-                    const book = await getBookById(parseInt(id));
-                    setTitle(book.title);
-                    setAuthor(book.author);
-                    setDescription(book.description);
-                } catch (error) {
-                    console.error('Error fetching book:', error);
-                }
-            }
-        };
-
-        fetchBook();
-    }, [id]);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const updatedBook = { id: parseInt(id!), title, author, description };
-            await updateBook(updatedBook);
-            setMessage('Book updated successfully!');
-            navigate('/'); // Redirect to the book list
-        } catch (error) {
-            console.error(error);
-            setMessage('Failed to update the book. Please try again.');
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const book = await getBook(Number(id)); // Use getBook with the ID
+        if (book) {
+          setTitle(book.title);
+          setAuthor(book.author);
+          setDescription(book.description);
+          setOpen(true); // Open the dialog when the book is fetched
         }
+      } catch (error) {
+        setError("Failed to fetch book details");
+      }
     };
 
-    return (
-        <div>
-            <h2>Edit Book</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Title:</label>
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Author:</label>
-                    <input
-                        type="text"
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    ></textarea>
-                </div>
-                <button type="submit">Update Book</button>
-            </form>
-            {message && <p>{message}</p>}
+    fetchBook();
+  }, [id]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!title || !author || !description) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    try {
+      // Include 'id' in the object passed to updateBook
+      await updateBook(Number(id), {
+        id: Number(id),
+        title,
+        author,
+        description,
+      });
+      setOpen(false); // Close the dialog after success
+      navigate("/"); // Redirect to book list
+    } catch (err) {
+      setError("Failed to update book");
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog when Cancel is clicked
+    navigate("/"); // Redirect to book list after closing the dialog
+  };
+
+  return (
+    <div className="dialog-overlay">
+      <div className="dialog-container">
+        <div className="dialog-header">
+          <div className="dialog-icon">🔲</div>
+          <h1 className="dialog-title">Edit Book (ID: {id})</h1>
+          <button onClick={handleClose} className="dialog-close">
+            ✖
+          </button>
         </div>
-    );
+        <hr className="dialog-divider" />
+        <form onSubmit={handleSubmit} className="dialog-form">
+          {error && <div className="dialog-error">{error}</div>}
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="dialog-input"
+          />
+          <input
+            type="text"
+            placeholder="Author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            className="dialog-input"
+          />
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="dialog-input dialog-textarea"
+          />
+          <div className="dialog-actions">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="dialog-cancel"
+            >
+              Cancel
+            </button>
+            <button type="submit" className="dialog-submit">
+              Update Book
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default EditBook;

@@ -8,14 +8,14 @@ namespace LibraryManagementSystem.Models
 
         [Required(ErrorMessage = "Title is required.")]
         [MaxLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Author is required.")]
         [MaxLength(100, ErrorMessage = "Author cannot exceed 100 characters.")]
-        public string Author { get; set; }
+        public string Author { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Description is required.")]
         [MaxLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty; 
     }
 }
